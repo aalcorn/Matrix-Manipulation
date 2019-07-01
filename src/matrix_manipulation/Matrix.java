@@ -73,12 +73,12 @@ public class Matrix {
                         k *= matrix[n][pivot];
                     }
                     tempAug = aug[i] *= matrix[n][pivot];
+                    System.out.println("Subtracting " + matrix[n][pivot] + " times row " + i + " from row " + n);
                     for(int g = 0; g < matrix[n].length; g++) {
                         matrix[n][g] -= tempArr[g];
-                        aug[n] -= tempAug;
-                        System.out.println("Subtracting " + matrix[n][pivot] + " times row " + i + " from row " + n);
-                        showMatrix();
                     }
+                    aug[n] -= tempAug;
+                    showMatrix();
                 } 
             }
         }
