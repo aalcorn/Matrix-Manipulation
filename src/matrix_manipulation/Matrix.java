@@ -37,7 +37,7 @@ public class Matrix {
     
     public void rowEchelonForm() {
         showMatrix();
-        boolean firstFound = false;
+        boolean firstFound;
         int belowNum;
         int rowsLeft;
         int pivotLoc = 0;
@@ -84,6 +84,49 @@ public class Matrix {
                 
             }
         }
-        
+        formatMatrix();
+    }
+    
+    public void formatMatrix() {
+        int rowRank;
+        boolean zeroRowSwap;
+        System.out.println("Formatting Matrix...");
+        boolean allZeroes;
+        for(int i = 0; i < matrix.length; i++) {
+            allZeroes = true;
+            zeroRowSwap = false;
+            for(int j = 0; j < matrix[i].length; j++) {
+                if(matrix[i][j] != 0) {
+                    allZeroes = false;
+                }
+            }
+            if(allZeroes) {
+                //System.out.println("Zero row " + (i + 1) + " found");
+                rowRank = i;
+                //showMatrix();
+                for(int k = matrix.length - 1; k > 0; k--) {
+                    allZeroes = true;
+                    for(int m = 0; m < matrix[k].length; m++) {
+                        if(matrix[k][m] != 0) {
+                            allZeroes = false;
+                        }
+                        
+                    }
+                    if(allZeroes == false && (k > i) && zeroRowSwap == false) {
+                        System.out.println("Swapping row " + (i + 1) + " with row " + (k + 1));
+                        int[] tempMatrix = Arrays.copyOf(matrix[k],matrix.length);
+                        int[] tempAugArr = Arrays.copyOf(aug,aug.length);
+                        int tempAug = tempAugArr[k];
+                        matrix[k] = Arrays.copyOf(matrix[i], matrix[i].length);
+                        aug[k] = tempAugArr[i];
+                        matrix[i] = Arrays.copyOf(tempMatrix,tempMatrix.length);
+                        aug[i] = tempAugArr[k];
+                        showMatrix();
+                        zeroRowSwap = true;
+                    }
+                }
+            }
+        }
+        showMatrix();
     }
 }
