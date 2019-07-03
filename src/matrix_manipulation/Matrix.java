@@ -9,7 +9,7 @@ import java.util.*;
 public class Matrix {
     
     private int[][] matrix =  {  {0, 0, 0},
-                                 {6, 12, 18},
+                                 {0, 12, 18},
                                  {7, 8, 9}  };
     private int[] aug = {3, 6, 1};
     
@@ -92,7 +92,26 @@ public class Matrix {
         * Use a while loop to do bubble sort until they are all in place.
         * Use another array to store the amount of zeroes in each row.
         */
-        int rowRank;
+        int[] leadingZeroesPerRow = Arrays.copyOf(aug, aug.length);
+        for(int m = 0; m < leadingZeroesPerRow.length; m++) {
+            leadingZeroesPerRow[m] = 0;
+        }
+        boolean nonZeroFound;
+        for(int i = 0; i < matrix.length; i++) {
+            nonZeroFound = false;
+            for(int j = 0; j < matrix[i].length; j++) {
+                if(!nonZeroFound && matrix[i][j] == 0) {
+                    leadingZeroesPerRow[i]++;
+                }
+                else if(matrix[i][j] != 0) {
+                    nonZeroFound = true;
+                }
+            }
+        }
+        for(int n = 0; n < leadingZeroesPerRow.length; n++) {
+            System.out.println(leadingZeroesPerRow[n]);
+        }
+        /*int rowRank;
         boolean zeroRowSwap;
         System.out.println("Formatting Matrix...");
         boolean allZeroes;
@@ -130,7 +149,7 @@ public class Matrix {
                     }
                 }
             }
-        }
+        }*/
         showMatrix();
     }
     
