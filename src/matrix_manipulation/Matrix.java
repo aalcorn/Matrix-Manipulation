@@ -88,6 +88,10 @@ public class Matrix {
     }
     
     public void formatMatrix() {
+        /*idea: scrap all this and sort the rows based on leading zeroes, with most zeroes being lower. 
+        * Use a while loop to do bubble sort until they are all in place.
+        * Use another array to store the amount of zeroes in each row.
+        */
         int rowRank;
         boolean zeroRowSwap;
         System.out.println("Formatting Matrix...");
@@ -127,6 +131,43 @@ public class Matrix {
                 }
             }
         }
+        showMatrix();
+    }
+    
+    public void multRow(int row, int amount) {
+        
+        for(int i = 0; i < matrix[row].length; i++) {
+            matrix[row - 1][i] *= amount;
+        }
+        aug[row - 1] *= amount;
+        showMatrix();
+    }
+    public void addRow(int startRow, int destinationRow, int times) {
+        int[] tempArr = Arrays.copyOf(matrix[startRow - 1],matrix[startRow - 1].length);
+        int[] tempAugArr = Arrays.copyOf(aug,aug.length);
+        int tempAug;
+        for(int i = 0; i < tempArr.length; i++) {
+            tempArr[i] *= times;
+        }
+        tempAugArr[startRow - 1] *= times;
+        tempAug = tempAugArr[startRow - 1];
+        
+        for(int j = 0; j < matrix[destinationRow - 1].length; j++) {
+            matrix[destinationRow - 1][j] += tempArr[j];
+        }
+        aug[destinationRow - 1] += tempAug;
+        showMatrix();
+    }
+    
+    public void swapRows(int firstRow, int secondRow) {
+        System.out.println("Swapping row " + (firstRow) + " with row " + (secondRow));
+        int[] tempMatrix = Arrays.copyOf(matrix[firstRow - 1],matrix.length);
+        int[] tempAugArr = Arrays.copyOf(aug,aug.length);
+        int tempAug = tempAugArr[firstRow - 1];
+        matrix[firstRow - 1] = Arrays.copyOf(matrix[secondRow - 1], matrix[secondRow - 1].length);
+        aug[firstRow - 1] = tempAugArr[secondRow - 1];
+        matrix[secondRow - 1] = Arrays.copyOf(tempMatrix,tempMatrix.length);
+        aug[secondRow - 1] = tempAugArr[firstRow - 1];
         showMatrix();
     }
 }
