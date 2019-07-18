@@ -8,15 +8,15 @@ import java.util.*;
  */
 public class Matrix {
     
-    private int[][] matrix =  {  {0, 0, 0},
+    private double[][] matrix =  {  {0, 0, 0},
                                  {0, 12, 18},
                                  {7, 8, 9}  };
-    private int[] aug = {3, 6, 1};
+    private double[] aug = {3, 6, 1};
     
     public Matrix() {
         
     }
-    public Matrix(int[][] m, int[] a) {
+    public Matrix(double[][] m, double[] a) {
         this.matrix = m;
         this.aug = a;
     }
@@ -31,7 +31,7 @@ public class Matrix {
         System.out.println();
     }
     
-    public int getNumber(int r, int c) {
+    public double getNumber(int r, int c) {
         return matrix[r][c];
     }
     
@@ -41,10 +41,10 @@ public class Matrix {
         int belowNum;
         int rowsLeft;
         int pivotLoc = 0;
-        int[] tempArr;
-        int tempAug;
-        int[] tempAugArr;
-        int pivot = 1;
+        double[] tempArr;
+        double tempAug;
+        double[] tempAugArr;
+        double pivot = 1;
         //find first non-zero number in the row (pivot).
         //make the pivot 1 by dividing the entire row by itself.
         //make every number blow the pivot 0 by adding or subtracting a multiple of the row from that row.
@@ -92,12 +92,12 @@ public class Matrix {
         * Use a while loop to do bubble sort until they are all in place.
         * Use another array to store the amount of zeroes in each row.
         */
-        int[] leadingZeroesPerRow = Arrays.copyOf(aug, aug.length);
+        double[] leadingZeroesPerRow = Arrays.copyOf(aug, aug.length); //make the array start at 0
         for(int m = 0; m < leadingZeroesPerRow.length; m++) {
             leadingZeroesPerRow[m] = 0;
         }
         boolean nonZeroFound;
-        for(int i = 0; i < matrix.length; i++) {
+        for(int i = 0; i < matrix.length; i++) { //count the number of zeroes in each row
             nonZeroFound = false;
             for(int j = 0; j < matrix[i].length; j++) {
                 if(!nonZeroFound && matrix[i][j] == 0) {
@@ -108,9 +108,28 @@ public class Matrix {
                 }
             }
         }
-        for(int n = 0; n < leadingZeroesPerRow.length; n++) {
+        /*for(int n = 0; n < leadingZeroesPerRow.length; n++) { //Test to see if the zeros are correctly counted.
             System.out.println(leadingZeroesPerRow[n]);
+        }*/
+        
+        //Now, we need to sort the rows based on the amount of zeroes in each row.
+        boolean sorted = false;
+        while(!sorted) {
+            sorted = true;
+            for(int m = 0; m < matrix.length - 1; m++) {
+                if(leadingZeroesPerRow[m] > leadingZeroesPerRow[m+1]) {
+                    double[] temp = Arrays.copyOf(leadingZeroesPerRow, leadingZeroesPerRow.length);
+                    leadingZeroesPerRow[m] = temp[m+1];
+                    leadingZeroesPerRow[m+1] = temp[m];
+                    swapRows(m + 1, m + 2);
+                    sorted = false;
+                }
+            }
         }
+        
+        /*for(int n = 0; n < leadingZeroesPerRow.length; n++) { //Test to see if the zeros are correctly counted.
+            System.out.println(leadingZeroesPerRow[n]);
+        }*/
         /*int rowRank;
         boolean zeroRowSwap;
         System.out.println("Formatting Matrix...");
@@ -162,9 +181,9 @@ public class Matrix {
         showMatrix();
     }
     public void addRow(int startRow, int destinationRow, int times) {
-        int[] tempArr = Arrays.copyOf(matrix[startRow - 1],matrix[startRow - 1].length);
-        int[] tempAugArr = Arrays.copyOf(aug,aug.length);
-        int tempAug;
+        double[] tempArr = Arrays.copyOf(matrix[startRow - 1],matrix[startRow - 1].length);
+        double[] tempAugArr = Arrays.copyOf(aug,aug.length);
+        double tempAug;
         for(int i = 0; i < tempArr.length; i++) {
             tempArr[i] *= times;
         }
@@ -180,9 +199,9 @@ public class Matrix {
     
     public void swapRows(int firstRow, int secondRow) {
         System.out.println("Swapping row " + (firstRow) + " with row " + (secondRow));
-        int[] tempMatrix = Arrays.copyOf(matrix[firstRow - 1],matrix.length);
-        int[] tempAugArr = Arrays.copyOf(aug,aug.length);
-        int tempAug = tempAugArr[firstRow - 1];
+        double[] tempMatrix = Arrays.copyOf(matrix[firstRow - 1],matrix.length);
+        double[] tempAugArr = Arrays.copyOf(aug,aug.length);
+        double tempAug = tempAugArr[firstRow - 1];
         matrix[firstRow - 1] = Arrays.copyOf(matrix[secondRow - 1], matrix[secondRow - 1].length);
         aug[firstRow - 1] = tempAugArr[secondRow - 1];
         matrix[secondRow - 1] = Arrays.copyOf(tempMatrix,tempMatrix.length);
