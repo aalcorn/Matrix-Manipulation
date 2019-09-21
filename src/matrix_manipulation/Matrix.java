@@ -24,9 +24,11 @@ public class Matrix {
     public void showMatrix() {
         for(int i = 0; i < matrix.length; i++) {
             for(int j = 0; j < matrix[i].length; j++) {
-                System.out.print(matrix[i][j] + " ");
+                //System.out.print(matrix[i][j] + " ");
+                System.out.print(Math.round(matrix[i][j]*100)/100.0 + " ");
             }
-            System.out.println("| " + aug[i]);
+            //System.out.println("| " + aug[i]);
+            System.out.println("| " + Math.round((aug[i])*100)/100.0); 
         }
         System.out.println();
     }
@@ -172,6 +174,25 @@ public class Matrix {
         showMatrix();
     }
     
+    public void reducedREF() {
+        rowEchelonForm();
+        boolean foundPivot;
+        //start from the bottom row, find the first non-zero and subtract multiples of it from the rows above to make the columns zero
+        for(int row = matrix.length-1; row > 0; row--) {           //loop through the rows of the matrix, starting at the last row.
+            foundPivot = false;
+            for(int col = 0; col < matrix[row].length; col++) {    //loop though the columns of each row, finding the first non zero number. 
+                if(matrix[row][col] != 0.0 && !foundPivot) {
+                    for(int i = row - 1; i >= 0; i--) {
+                        System.out.println("Subtracting " + matrix[i][col] + " row " + (row + 1) + " from row " + (i+1));
+                        addRow(row+1,i+1,-matrix[i][col]);             //Make the numbers above the pivots 0
+                        foundPivot = true;
+                    }
+                }
+            }
+        }
+        //System.out.println(matrix.length);
+    }
+    
     public void multRow(int row, int amount) {
         
         for(int i = 0; i < matrix[row].length; i++) {
@@ -180,7 +201,7 @@ public class Matrix {
         aug[row - 1] *= amount;
         showMatrix();
     }
-    public void addRow(int startRow, int destinationRow, int times) {
+    public void addRow(int startRow, int destinationRow, double times) {
         double[] tempArr = Arrays.copyOf(matrix[startRow - 1],matrix[startRow - 1].length);
         double[] tempAugArr = Arrays.copyOf(aug,aug.length);
         double tempAug;
